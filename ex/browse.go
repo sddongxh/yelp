@@ -33,11 +33,20 @@ func main() {
 	// //fmt.Scanln() // wait for Enter Key
 
 	jsonFile, err := os.Open("/home/xihua/code/datasets/yelp/dataset/business.json")
+	//jsonFile, err := os.Open("../local.json")
 	if err != nil {
 		fmt.Println(err)
 	}
 	defer jsonFile.Close()
 	reader := bufio.NewReader(jsonFile)
+
+	jsonLocal, err := os.Create("vegas.json")
+	if err != nil {
+		panic(err)
+	}
+	defer jsonLocal.Close()
+	writer := bufio.NewWriter(jsonLocal)
+
 	var business map[string]interface{}
 	longitudes := make([]float64, 0)
 	latitudes := make([]float64, 0)
@@ -51,10 +60,18 @@ func main() {
 		json.Unmarshal([]byte(line), &business)
 		//	zip := business["postal_code"]
 		//	fmt.Println(zip)
-		longitudes = append(longitudes, business["longitude"].(float64))
-		latitudes = append(latitudes, business["latitude"].(float64))
+		//longitudes = append(longitudes, business["longitude"].(float64))
+		//latitudes = append(latitudes, business["latitude"].(float64))
+		lon := business["longitude"].(float64)
+		lat := business["latitude"].(float64)
+		if lon < -113 && lon > -120 && lat > 35 && lat < 38 {
+			writer.Write([]byte(line))
+			latitudes = append(latitudes, lat)
+			longitudes = append(longitudes, lon)
+		}
+
 	}
-	fmt.Println(longitudes, latitudes)
+	fmt.Println(len(longitudes), len(latitudes))
 
 	ps := [][]float64{longitudes, latitudes}
 	plot.AddPointGroup(pointGroupName, style, ps)
