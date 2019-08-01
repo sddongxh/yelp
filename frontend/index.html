@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script>
+
+        function myFunction() {
+            var payload = {
+                a: 1,
+                b: 2
+            };
+            var data = new FormData();
+            data.append("json", JSON.stringify(payload));
+            const url = 'http://172.30.144.57:8080';
+            fetch(url,
+                {
+                    method: "POST",
+                    body: data
+                })
+                .then(function (res) { return res.json(); })
+                .then(function (data) { alert(JSON.stringify(data)) })
+        }
+        function userAction() {
+            const url = 'http://172.30.144.57:8080';
+            fetch(url, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: "POST",
+                body: JSON.stringify({ a: 1, b: 2 })
+            })
+        }
+        function search() {
+            //https://www.yelp.com/search?find_desc=sandwich&l=37.372191699999995%2C-122.00416789999998"
+            const url = 'http://172.30.144.57:8080';
+            longitude = document.getElementById("longitude").value
+            latitude = document.getElementById("latitude").value
+            destinaion = document.getElementById("destinaion").value
+            radius = document.getElementById("radius").value
+            var e = document.getElementById("ranking");
+            var rank_opt = e.options[e.selectedIndex].value;
+            uri = url + "/seach?find_desc=" + destinaion + "&l=" + latitude + "," + longitude + "&r=" + radius + "&ranking=" + rank_opt
+            fetch(uri).then(response =>
+                response.text().then(data => ({
+                    data: data,
+                    status: response.status
+                })
+                ).then(res => {
+                    document.write(res.data)
+                }));
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Yelp</h1>
+    <label><b>Longitude</b></label>
+    <input id="longitude" type="text" value=-115.1786369 name="longitude" required>
+
+    <label><b>Latitude</b></label>
+    <input id="latitude" type="text" value="36.1440384" name="latitude" required>
+
+    <label><b>Destination</b></label>
+    <input id="destinaion" type="text" value="sandwich" name="destination" required>
+    <button type="button" onclick="search()">Search</button>
+    <p> </p>
+    <label><b>Radius</b></label>
+    <input id="radius" type="text" value="1" name="radius" required>
+
+    Ranking: <select id="ranking">
+        <option value="distance">distance</option>
+        <option value="rating">rating</option>
+    </select>
+
+    <p> </p>
+    <img src="images/vegas_map.png">
+</body>
+
+</html>
