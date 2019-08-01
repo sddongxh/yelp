@@ -33,6 +33,6 @@ func main() {
 	}
 
 	fmt.Println(r)
-	tree := utils.BuildQuadTree(&data, nil, &r, 10000)
+	tree := utils.BuildQuadTree(&data, nil, &r, 1000, "")
 	fmt.Println(tree.Count)
 }
