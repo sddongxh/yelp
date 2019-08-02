@@ -40,7 +40,7 @@
             radius = document.getElementById("radius").value
             var e = document.getElementById("ranking");
             var rank_opt = e.options[e.selectedIndex].value;
-            uri = url + "/seach?find_desc=" + destinaion + "&l=" + latitude + "," + longitude + "&r=" + radius + "&ranking=" + rank_opt
+            uri = url + "/seach?find_desc=" + destinaion + "&lat=" + latitude + "&lon=" + longitude + "&r=" + radius + "&ranking=" + rank_opt
             fetch(uri).then(response =>
                 response.text().then(data => ({
                     data: data,
@@ -66,11 +66,11 @@
     <button type="button" onclick="search()">Search</button>
     <p> </p>
     <label><b>Radius</b></label>
-    <input id="radius" type="text" value="1" name="radius" required>
+    <input id="radius" type="text" value="1000" name="radius" required>
 
     Ranking: <select id="ranking">
-        <option value="distance">distance</option>
         <option value="rating">rating</option>
+        <option value="distance">distance</option>
     </select>
 
     <p> </p>
