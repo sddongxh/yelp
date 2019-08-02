@@ -54,9 +54,9 @@ type yelpHandler struct {
 
 func formatSearchResult(info []BusiInfo, dists []float64) string {
 	var res string
-	res += fmt.Sprintf("Name Stars Distance Address ")
+	res += fmt.Sprintf("Stars Name Distance Address")
 	for i, b := range info {
-		res += fmt.Sprintf("<p>%v | %v | %v | %v</p>", b["name"], b["stars"], int(dists[i]), b["address"])
+		res += fmt.Sprintf("<p>%v | %v | %v | %v</p>", b["stars"], b["name"], int(dists[i]), b["address"])
 	}
 	return res
 }
