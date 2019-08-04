@@ -9,8 +9,7 @@
         const map_br_x = -114.845475
         const url = 'http://192.168.0.9:9357';
         document.onmousedown = function (ev) {
-            var oEvent = ev || event; //IE浏览器直接使用event或者window.event得到事件本身。
-            e = oEvent
+            var e = ev || event; //IE浏览器直接使用event或者window.event得到事件本身。
             map = document.getElementById('vegas_map')
             var rect = e.target.getBoundingClientRect();
             if (e.target != map) {
