@@ -3,37 +3,41 @@
 
 <head>
     <script>
+        const map_tl_y = 36.322444
+        const map_tl_x = -115.470360
+        const map_br_y = 35.946912
+        const map_br_x = -114.845475
+        const url = 'http://192.168.0.9:9357';
+        document.onmousedown = function (ev) {
+            var oEvent = ev || event; //IE浏览器直接使用event或者window.event得到事件本身。
+            e = oEvent
+            map = document.getElementById('vegas_map')
+            var rect = e.target.getBoundingClientRect();
+            if (e.target != map) {
+                return
+            }
+            var x_relative = e.clientX - rect.left; //x position within the element.
+            var y_relative = e.clientY - rect.top;  //y position within the element.
+            x = x_relative / map.width * (map_br_x - map_tl_x) + map_tl_x
+            y = y_relative / map.height * (map_br_y - map_tl_y) + map_tl_y
+            document.getElementById("longitude").value = x
+            document.getElementById("latitude").value = y
+        };
+        function findPos(obj) {
+            var curleft = 0;
+            var curtop = 0;
+            if (obj.offsetParent) {
+                do {
+                    curleft += obj.offsetLeft;
+                    curtop += obj.offsetTop;
+                } while (obj = obj.offsetParent);
 
-        function myFunction() {
-            var payload = {
-                a: 1,
-                b: 2
-            };
-            var data = new FormData();
-            data.append("json", JSON.stringify(payload));
-            const url = 'http://172.30.144.57:8080';
-            fetch(url,
-                {
-                    method: "POST",
-                    body: data
-                })
-                .then(function (res) { return res.json(); })
-                .then(function (data) { alert(JSON.stringify(data)) })
-        }
-        function userAction() {
-            const url = 'http://172.30.144.57:8080';
-            fetch(url, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                method: "POST",
-                body: JSON.stringify({ a: 1, b: 2 })
-            })
+                return { X: curleft, Y: curtop };
+            }
         }
         function search() {
             //https://www.yelp.com/search?find_desc=sandwich&l=37.372191699999995%2C-122.00416789999998"
-            const url = 'http://172.30.144.57:8080';
+            //const url = 'http://172.30.144.57:8080';
             longitude = document.getElementById("longitude").value
             latitude = document.getElementById("latitude").value
             destinaion = document.getElementById("destinaion").value
@@ -72,9 +76,10 @@
         <option value="rating">rating</option>
         <option value="distance">distance</option>
     </select>
+    <p>I don not know why this offset</p>
 
     <p> </p>
-    <img src="images/vegas_map.png">
+    <img id="vegas_map" , src="images/las_vegas_map.png">
 </body>
 
 </html>

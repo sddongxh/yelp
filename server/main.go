@@ -37,7 +37,7 @@ func initServer(filename string) {
 	}
 	//fmt.Println("Data size:", len(data))
 	db = *utils.NewGeoHashDB()
-	dbTree = utils.BuildQuadTreeFromData(data, 100, db)
+	dbTree = utils.BuildQuadTreeFromData(data, 1000, db)
 	fmt.Println("Area infomation:", *dbTree)
 	fmt.Println("GEO hash information:", len(db), "units")
 	fmt.Println("Server has been successfully initiated")
@@ -106,10 +106,11 @@ func (h *yelpHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	filename := "/home/xihua/go/src/yelp/data/vegas.json"
+	//filename := "/home/xihua/go/src/yelp/data/vegas.json"
+	filename := "data/vegas.json"
 	initServer(filename)
 	server := &http.Server{
-		Addr:    ":8080",
+		Addr:    ":9357",
 		Handler: new(yelpHandler)}
 	log.Fatal(server.ListenAndServe())
 	defer server.Close()
